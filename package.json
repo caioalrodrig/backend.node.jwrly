@@ -1,0 +1,25 @@
+{
+  "name": "citta",
+  "version": "1.0.0",
+  "description": "backend service for providing city list ",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test",
+    "start": "ts-node-dev src/routes/index.ts"
+  },
+  "keywords": [
+    "typescript"
+  ],
+  "author": "caioalrodrig",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "http-status-codes": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.4.5"
+  }
+}
