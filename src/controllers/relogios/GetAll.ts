@@ -1,13 +1,10 @@
-import { Request, Response } from 'express';
+import { query, Request, RequestHandler, Response } from 'express';
 import { StatusCodes } from 'http-status-codes'; 
+import {relogios} from '../../database/';
 
-const relogios = [
-    { id: 1, marca: 'Rolex', preco: 5000 },
-    { id: 2, marca: 'Casio', preco: 50 },
-    { id: 3, marca: 'Omega', preco: 3000 }
-  ];
+export const getAllRelogios: RequestHandler = ( req, res, next ) => {
 
-export const getAllRelogios = ( req: Request<Array<string>>, res: Response ) => {
+  // console.log("Hey");
 
-  return res.status(StatusCodes.OK).json(relogios); 
+  //return res.status(StatusCodes.OK).json(relogios); 
 };

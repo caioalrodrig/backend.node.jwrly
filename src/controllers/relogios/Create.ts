@@ -13,23 +13,31 @@ interface IRelogio {
   id: number;
   marca: string;
   preco?: number;
-}
+};
 
-export const create = async (req: Request<{}, {}, IRelogio>, res: Response) => {
-  
+const createValidation: RequestHandler = async (req, res, next) => {
   let validatedData: IRelogio | undefined = undefined;
 
   try{
     validatedData = await Relogio.validate(req.body); 
+    next();
   } catch(error){
 
     let yupErrorMsg = (error as yup.ValidationError).message; 
+    res.status(StatusCodes.BAD_REQUEST);
     return res.json({
       errors: {
         default: yupErrorMsg,
       }
-    });    
-    
+    });        
   }
-  return res.status(StatusCodes.OK).send('Create!');    
 };
+
+const create = async (req: Request<{}, {}, IRelogio>, res: Response) => {
+  
+  console.log(req.body);  
+  
+  return res.status(StatusCodes.OK).json('[]');    
+};
+
+export {createValidation, create};

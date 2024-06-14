@@ -10,13 +10,23 @@ const port = process.env.PORT || 3030;
 app.use(express.json());
 app.use(router);
 
-// router.post('/relogios', RelogiosController.create);
+router.post('/relogios',
+    RelogiosController.createValidation, 
+    RelogiosController.create);
 
-// router.get('/relogios', RelogiosController.getRelogios);
+router.get('/relogios',
+    RelogiosController.getValidation!,
+    RelogiosController.getRelogios,
+    RelogiosController.getAllRelogios);
+
+router.put('/relogios',
+    RelogiosController.updateValidation,
+    RelogiosController.updateRelogios
+);
 
 app.listen(port, () => {
 
     console.log(`Servidor iniciado em http://localhost:${port}`);
 });
 
-router.post('/relogios',RelogiosController.create,);
+
