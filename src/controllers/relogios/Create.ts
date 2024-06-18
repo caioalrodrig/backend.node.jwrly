@@ -36,8 +36,9 @@ const createValidation: RequestHandler = async (req, res, next) => {
 const create = async (req: Request<{}, {}, IRelogio>, res: Response) => {
   
   console.log(req.body);  
+  const id: number = req.body.id; 
   
-  return res.status(StatusCodes.OK).json('[]');    
+  return res.status(StatusCodes.CREATED).json(`Item com id ${id} inserido com sucesso`);    
 };
 
 export {createValidation, create};
