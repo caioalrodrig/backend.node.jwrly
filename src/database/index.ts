@@ -1,7 +1,14 @@
-const relogios = [
-    { id: 1, marca: 'Rolex', preco: 5000 },
-    { id: 2, marca: 'Casio', preco: 50 },
-    { id: 3, marca: 'Omega', preco: 3000 }
-  ];
+import { forEachChild } from 'typescript';
+import { dataset } from './seeds';
+import { string } from 'yup';
+
+const relogios = dataset.map((objeto, indice) => ({
+  id: indice,
+  brand: objeto.brand,
+  model: objeto.model,
+  caseMaterial: objeto.caseMaterial,
+  strapMaterial: objeto.strapMaterial,
+  priceUSD: objeto.priceUSD
+}));
 
 export {relogios}

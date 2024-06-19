@@ -13,7 +13,8 @@ router.get('/relogios',
     RelogiosController.getAllRelogios);
 
 router.put('/relogios',
-    RelogiosController.updateValidation,
+    RelogiosController.updateQueryValidation,
+    RelogiosController.updateBodyValidation,
     RelogiosController.updateRelogios
 );
 

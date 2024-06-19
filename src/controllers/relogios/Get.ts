@@ -1,40 +1,23 @@
 import { Request, Response, RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes'; 
+import { validation } from '../../shared/middleware'; 
 import * as yup from 'yup';
-import {relogios} from '../../database/';
+import { relogios } from '../../database/';
 
 interface IQuery {
   id?: number;
-  marca?: string;
-  preco?: number;
+  brand?: string;
+  priceUSD?: number;
 }
-
-const queryValidationOpts: yup.ValidateOptions = {
-    stripUnknown: true,
-};
 
 const querySchema: yup.ObjectSchema<IQuery> = yup.object().shape({
   id: yup.number().optional(),
-  marca: yup.string().optional(),
-  preco: yup.number().optional(),
+  brand: yup.string().optional(),
+  priceUSD: yup.number().optional(),
 });
 
-const getValidation: RequestHandler = async ( req, res, next) => {
-  let validatedData: IQuery | undefined = undefined;
-  try{
-    validatedData = await querySchema.validate(req.query, queryValidationOpts);
-    next();
-  } catch(error){
-    console.log("Hi");
-    let yupErrorMsg = (error as yup.ValidationError).message; 
-    res.status(StatusCodes.BAD_REQUEST);
-    return res.json({
-      errors: {
-        default: yupErrorMsg,
-      }
-    });        
-  }
-}; 
+const getValidation = validation({query: querySchema });
+ 
 
 const getRelogios: RequestHandler = ( req, res, next) => {
 
@@ -44,13 +27,13 @@ const getRelogios: RequestHandler = ( req, res, next) => {
 //   }
 
   let resp = relogios;
-  const {marca, preco} = req.query;
+  const {brand, priceUSD} = req.query;
   
-  if (marca){
-    resp = resp.filter( relogio => relogio.marca === marca);
+  if (brand){
+    resp = resp.filter( relogio => relogio.brand === brand);
   }
-  if (preco){
-    resp = resp.filter( relogio => relogio.preco === Number(preco));
+  if (priceUSD){
+    resp = resp.filter( relogio => relogio.priceUSD === Number(priceUSD));
   }
     
 

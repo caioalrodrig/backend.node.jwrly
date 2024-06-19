@@ -1,5 +1,6 @@
-import { Request, Response, RequestHandler } from 'express';
+import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes'; 
+import { validation } from '../../shared/middleware'; 
 import * as yup from 'yup';
 
 const Relogio : yup.ObjectSchema<IRelogio> = yup.object().shape({
@@ -15,25 +16,10 @@ interface IRelogio {
   preco?: number;
 };
 
-const createValidation: RequestHandler = async (req, res, next) => {
-  let validatedData: IRelogio | undefined = undefined;
+const createValidation = validation({body: Relogio});
 
-  try{
-    validatedData = await Relogio.validate(req.body); 
-    next();
-  } catch(error){
 
-    let yupErrorMsg = (error as yup.ValidationError).message; 
-    res.status(StatusCodes.BAD_REQUEST);
-    return res.json({
-      errors: {
-        default: yupErrorMsg,
-      }
-    });        
-  }
-};
-
-const create = async (req: Request<{}, {}, IRelogio>, res: Response) => {
+const create: RequestHandler = async (req, res, next) => {
   
   console.log(req.body);  
   const id: number = req.body.id; 
