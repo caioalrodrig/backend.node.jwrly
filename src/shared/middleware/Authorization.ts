@@ -1,10 +1,23 @@
 import 'dotenv/config';
 import { RequestHandler } from 'express';
+import { Services } from '../../shared';
+import { StatusCodes } from 'http-status-codes';
 
 
-const validateAccess: RequestHandler = () => {
+export const ensureAuthenticated: RequestHandler = (req, res, next) => {
+  const token = req.headers.bearer;
 
+  if (!token){
+    return res.status(StatusCodes.UNAUTHORIZED).json({ error: "Acesso negado!" });
+  }
   
-};
+  const decoded = Services.verifyJWT(token as string);
 
-export {validateAccess};
+  if (decoded === 'INVALID_TOKEN' ){
+    return res.status(StatusCodes.UNAUTHORIZED).json({
+      error: "Acesso negado!"
+    });
+  }
+  next();
+    
+};

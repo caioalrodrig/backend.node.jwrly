@@ -1,6 +1,6 @@
 import { Request, Response, RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes'; 
-import { validation } from '../../shared/middleware'; 
+import { Middleware } from '../../shared/middleware'; 
 import * as yup from 'yup';
 import { relogios } from '../../database/';
 
@@ -16,7 +16,7 @@ const querySchema: yup.ObjectSchema<IQuery> = yup.object().shape({
   priceUSD: yup.number().optional(),
 });
 
-const getValidation = validation({query: querySchema });
+const getValidation = Middleware.validation({query: querySchema });
  
 
 const getRelogios: RequestHandler = ( req, res, next) => {

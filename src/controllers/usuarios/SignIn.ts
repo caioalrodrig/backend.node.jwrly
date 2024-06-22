@@ -1,14 +1,18 @@
-import 'dotenv/config';
 import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import * as yup from 'yup';
-import * as jwt from 'jsonwebtoken';
-import { Shared } from '../../shared';
+import { Middleware, Services } from '../../shared';
 
 interface IUsuario{
   id?: number;
   email: string;
   password: string;
+};
+
+const credential = {
+  id: 70,
+  email: "joseph@gmail.com",
+  password: "1234567890"
 };
 
 interface IBodyValidation extends Omit<IUsuario, 'id'> {};
@@ -18,30 +22,28 @@ const usuario: yup.ObjectSchema<IBodyValidation> = yup.object().shape({
   password: yup.string().defined(),
 }); 
 
-const validateSignIn = Shared.validation({body: usuario});
+const validateSignIn = Middleware.validation( {body: usuario} );
 
 const signIn: RequestHandler = async (req, res, next) => {
-  const hashedPassword: string = await Shared.hashPassword(req.body.password);
-  const verifiedPassword = await Shared.verifyPassword(hashedPassword);
-
-  if (verifiedPassword){
-    const token = jwt.sign(
-      { email: req.body.email },
-      process.env.KEY!,
-      { expiresIn: '20min' }
-    );
-    return res.status(StatusCodes.OK).json({
-      message: 'Authenticated successfully',
-      signature: token
-    });
-  } else{
+  if (req.body.email !== credential.email){
     return res.status(StatusCodes.UNAUTHORIZED).json({
-      errors: {
-        default: 'Email ou senha são inválidos'
-      }
+      errors: {default: 'Email ou senha são inválidos'}
     });
   }
+  const hashedPassword: string = await Services.hashPassword(req.body.password);
+  const verifiedPassword = await Services.verifyPassword( hashedPassword, credential.password );
 
+  if (verifiedPassword){
+    res.header({
+      bearer: Services.signJWT( {id: req.body.id} )
+    });
+
+    return res.status(StatusCodes.OK).send();
+  } else{
+    return res.status(StatusCodes.UNAUTHORIZED).json({
+      errors: { default: 'Email ou senha são inválidos'}
+    });
+  }
 };
 
 export { validateSignIn, signIn }

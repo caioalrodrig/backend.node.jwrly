@@ -1,8 +1,8 @@
 import { Request, Response, RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes'; 
 import * as yup from 'yup';
-import { validation } from '../../shared/middleware'; 
-import { relogios } from '../../database/';
+import { Middleware } from '../../shared'; 
+import { relogios } from '../../database';
 
 interface IQueryUpdate {
   id: number;
@@ -22,9 +22,9 @@ const bodySchema: yup.ObjectSchema<IBodyUpdate> = yup.object().shape({
   priceUSD: yup.number().optional().min(50),
 });
 
-const updateQueryValidation = validation({query: querySchema});
+const updateQueryValidation = Middleware.validation({query: querySchema});
 
-const updateBodyValidation = validation({body: bodySchema});
+const updateBodyValidation = Middleware.validation({body: bodySchema});
 
 const updateRelogios: RequestHandler = ( req, res, next) => {
 

@@ -1,7 +1,3 @@
-import * as middleware from './middleware';
-import * as services from './services';
+export * from './middleware';
+export * from './services';
 
-export const Shared = {
-  ...middleware,
-  ...services
-}
