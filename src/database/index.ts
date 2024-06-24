@@ -1,6 +1,4 @@
-import { forEachChild } from 'typescript';
 import { dataset } from './seeds';
-import { string } from 'yup';
 
 const relogios = dataset.map((objeto, indice) => ({
   id: indice,
@@ -11,4 +9,5 @@ const relogios = dataset.map((objeto, indice) => ({
   priceUSD: objeto.priceUSD
 }));
 
-export {relogios}
+
+export {relogios};

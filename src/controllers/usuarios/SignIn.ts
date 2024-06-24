@@ -1,13 +1,9 @@
 import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import { IUsuario } from '../../database/schemas';
 import * as yup from 'yup';
 import { Middleware, Services } from '../../shared';
 
-interface IUsuario{
-  id?: number;
-  email: string;
-  password: string;
-};
 
 const credential = {
   id: 70,
