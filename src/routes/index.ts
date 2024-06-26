@@ -4,7 +4,10 @@ import { Middleware } from '../shared';
 
 const router = Router();
 
-router.post('/signup');
+router.post('/signup',
+    UsuariosController.validateSignUp,
+    UsuariosController.signUp
+);
 
 router.post('/signin',
     UsuariosController.validateSignIn,

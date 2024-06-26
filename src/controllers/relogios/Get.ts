@@ -1,43 +1,32 @@
-import { Request, Response, RequestHandler } from 'express';
+import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes'; 
 import { Middleware } from '../../shared/middleware'; 
+import { RelogiosProvider } from '../../database/providers';
 import * as yup from 'yup';
-import { relogios } from '../../database/';
 
 interface IQuery {
-  id?: number;
+  model?: string;
   brand?: string;
-  priceUSD?: number;
-}
-
-const querySchema: yup.ObjectSchema<IQuery> = yup.object().shape({
-  id: yup.number().optional(),
-  brand: yup.string().optional(),
-  priceUSD: yup.number().optional(),
-});
-
-const getValidation = Middleware.validation({query: querySchema });
- 
-
-const getRelogios: RequestHandler = ( req, res, next) => {
-
-//   if(Object.keys(req.query).length === 0){
-//     console.log("Olah");
-//     next();
-//   }
-
-  let resp = relogios;
-  const {brand, priceUSD} = req.query;
-  
-  if (brand){
-    resp = resp.filter( relogio => relogio.brand === brand);
-  }
-  if (priceUSD){
-    resp = resp.filter( relogio => relogio.priceUSD === Number(priceUSD));
-  }
-    
-
-  return res.status(StatusCodes.OK).json(resp);
+  price?: number;
 };
 
-export {getValidation, getRelogios}
+const querySchema: yup.ObjectSchema<IQuery> = yup.object().shape({
+  model: yup.string().optional(),
+  brand: yup.string().optional(),
+  price: yup.number().optional(),
+}).noUnknown();
+
+const getValidation = Middleware.validation({ query: querySchema });
+ 
+const getRelogios: RequestHandler = async ( req, res, next) => {
+  const queryParams: Record<string, any> = req.query;
+  if ( JSON.stringify(req.query) === '{}' ){
+    next();
+    return;
+  } 
+  const queryResult = await RelogiosProvider.get(queryParams);  
+  
+  return res.status(StatusCodes.OK).json(queryResult);
+};
+
+export {getValidation, getRelogios};

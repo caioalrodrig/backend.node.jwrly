@@ -1,10 +1,11 @@
+import { RelogiosProvider } from '../../database/providers';
+import { IRelogio } from '../../database/schemas';
 import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes'; 
 import { Middleware } from '../../shared'; 
 import * as yup from 'yup';
 
-const Relogio : yup.ObjectSchema<IRelogio> = yup.object().shape({
-  id: yup.number().defined(),
+const Relogio : yup.ObjectSchema<Omit<IRelogio,'id'>> = yup.object().shape({
   brand: yup.string().defined(),
   model: yup.string().defined(),
   price: yup.number().defined(),
@@ -12,24 +13,22 @@ const Relogio : yup.ObjectSchema<IRelogio> = yup.object().shape({
   caseMaterial: yup.string().optional(),
 }); 
 
-
-interface IRelogio {
-  id: number;
-  model: string;
-  brand: string;
-  price: number;
-  strapMaterial?: string;
-  caseMaterial?: string;
-};
-
 const createValidation = Middleware.validation({body: Relogio});
 
 
 const create: RequestHandler = async (req, res, next) => {
+  const register = req.body;
+  const inserted: Error | number = await RelogiosProvider.create(register);
   
-  const id: number = req.body.id; 
-  
-  return res.status(StatusCodes.CREATED).json(`Item com id ${id} inserido com sucesso`);    
+  if (inserted instanceof Error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      errors: {
+        default: inserted.message
+      }
+    });
+  }
+
+  return res.status(StatusCodes.CREATED).json(inserted);
 };
 
 export {createValidation, create};

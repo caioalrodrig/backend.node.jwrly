@@ -16,7 +16,7 @@ const verifyJWT = (accessToken: string | undefined) => {
   try{
     const verifiedToken = jwt.verify(accessToken, SECRET);  
     if (typeof verifiedToken === 'string') return "INVALID_TOKEN";
-    console.log(verifiedToken);
+
     return verifiedToken;
   } catch (error) {
 

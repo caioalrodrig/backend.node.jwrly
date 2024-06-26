@@ -6,7 +6,7 @@ const relogios = dataset.map((objeto, indice) => ({
   model: objeto.model,
   caseMaterial: objeto.caseMaterial,
   strapMaterial: objeto.strapMaterial,
-  priceUSD: objeto.priceUSD
+  price: objeto.priceUSD
 }));
 
 

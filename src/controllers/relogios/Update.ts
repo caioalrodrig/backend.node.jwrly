@@ -2,7 +2,6 @@ import { Request, Response, RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes'; 
 import * as yup from 'yup';
 import { Middleware } from '../../shared'; 
-import { relogios } from '../../database';
 
 interface IQueryUpdate {
   id: number;
@@ -10,7 +9,7 @@ interface IQueryUpdate {
 
 interface IBodyUpdate {
   brand?: string;
-  priceUSD?: number;
+  price?: number;
 };
 
 const querySchema: yup.ObjectSchema<IQueryUpdate> = yup.object().shape({
@@ -19,7 +18,7 @@ const querySchema: yup.ObjectSchema<IQueryUpdate> = yup.object().shape({
 
 const bodySchema: yup.ObjectSchema<IBodyUpdate> = yup.object().shape({
   brand: yup.string().optional().min(2),
-  priceUSD: yup.number().optional().min(50),
+  price: yup.number().optional().min(50),
 });
 
 const updateQueryValidation = Middleware.validation({query: querySchema});
@@ -30,20 +29,6 @@ const updateRelogios: RequestHandler = ( req, res, next) => {
 
   const {id} = req.query;
   const {brand, priceUSD} = req.body;
-
-  if (id){
-    const relogioIdx = relogios.findIndex(relogio => relogio.id === Number(id));
-    if (brand){
-        relogios[relogioIdx].brand = brand;
-    }
-    if (priceUSD){
-        relogios[relogioIdx].priceUSD = priceUSD;
-    }
-    let resp = relogios.filter( relogio => relogio.id === Number(id));
-    
-    return res.status(StatusCodes.OK).json(resp);
-  } 
-
 };
 
 export {updateQueryValidation, updateBodyValidation, updateRelogios}

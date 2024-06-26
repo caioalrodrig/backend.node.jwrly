@@ -19,4 +19,4 @@ const signUp: RequestHandler = async (req, res, next) => {
   return res.status(StatusCodes.CREATED).json(`Item com id inserido com sucesso`);    
 };
 
-export { };
+export {validateSignUp, signUp };

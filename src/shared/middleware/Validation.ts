@@ -14,7 +14,9 @@ export const validation : TValidation = (schema: TSchema) => async (req, res, ne
   }
   try{
     await schema[validationProp]!.validate(req[validationProp], {
-        abortEarly: false
+        abortEarly: false,
+        strict: false,
+        stripUnknown: true,
       }
     );
     next();

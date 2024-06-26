@@ -1,10 +1,15 @@
-import { query, Request, RequestHandler, Response } from 'express';
+import { RequestHandler} from 'express';
 import { StatusCodes } from 'http-status-codes'; 
-import {relogios} from '../../database/';
+import { RelogiosProvider } from '../../database/providers';
 
-export const getAllRelogios: RequestHandler = ( req, res, next ) => {
+export const getAllRelogios: RequestHandler = async ( req, res, next ) => {
 
-  // console.log("Hey");
+  const allRelogios = await RelogiosProvider.getAll();
 
-  //return res.status(StatusCodes.OK).json(relogios); 
+  if (allRelogios instanceof Error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      errors: { default: allRelogios.message }
+    });
+  }
+  return res.status(StatusCodes.OK).json(allRelogios);
 };
