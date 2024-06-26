@@ -11,7 +11,7 @@ const credential = {
   password: "1234567890"
 };
 
-interface IBodyValidation extends Omit<IUsuario, 'id'> {};
+interface IBodyValidation extends Omit<IUsuario, 'id'| 'likes'| 'name'> {};
 
 const usuario: yup.ObjectSchema<IBodyValidation> = yup.object().shape({
   email: yup.string().email().defined(),
