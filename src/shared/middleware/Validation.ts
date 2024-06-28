@@ -10,11 +10,12 @@ type TValidation = (getSchema: TSchema) => RequestHandler;
 export const validation : TValidation = (schema: TSchema) => async (req, res, next) => {
   const validationProp = Object.keys(schema)[0] as TProperty;
   if ( !validationProp ){
-    res.status(StatusCodes.BAD_REQUEST).send();
+    res.status(StatusCodes.BAD_REQUEST).send;
   }
   try{
-    req[validationProp] = await schema[validationProp]!.validate(req[validationProp], {
-        abortEarly: true,
+    await schema[validationProp]!.validate(req[validationProp], {
+        abortEarly: false,
+        strict: false,
         stripUnknown: true,
       }
     );
