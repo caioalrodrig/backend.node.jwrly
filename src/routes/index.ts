@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { RelogiosController, UsuariosController } from '../controllers';
+import { RelogiosController, UsuariosController, PessoasController } from '../controllers';
 import { Middleware } from '../shared';
 
 const router = Router();
@@ -27,14 +27,11 @@ router.get('/relogios',
     RelogiosController.getAllRelogios
 );
 
-router.put('/relogios',
+router.put('/usuario',
     Middleware.ensureAuthenticated,
-    RelogiosController.updateQueryValidation,
-    RelogiosController.updateBodyValidation,
-    RelogiosController.updateRelogios
+    PessoasController.likeItemValidation,
+    PessoasController.likeItem
 );
 
 
 export {router};
-
-

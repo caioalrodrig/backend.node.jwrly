@@ -10,9 +10,8 @@ const hashPassword = async (password: string) => {
 };
 
 const verifyPassword = async (password: string, actualPassword: string) => {
-  const hashedPassword = await hashPassword(actualPassword);
 
-  return await compare(actualPassword, password);
+  return await compare(password, actualPassword);
 
 };
 
