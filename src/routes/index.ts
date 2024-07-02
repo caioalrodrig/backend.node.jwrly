@@ -22,16 +22,26 @@ router.post('/relogios',
 
 router.get('/relogios',
     Middleware.ensureAuthenticated,
-    RelogiosController.getValidation!,
+    RelogiosController.getValidation,
     RelogiosController.getRelogios,
     RelogiosController.getAllRelogios
 );
 
-router.put('/usuario',
+router.post('/pessoas',
     Middleware.ensureAuthenticated,
     PessoasController.likeItemValidation,
     PessoasController.likeItem
 );
 
+router.get('/pessoas',
+    Middleware.ensureAuthenticated,
+    PessoasController.getWishlist
+);
+
+router.delete('/pessoas',
+    Middleware.ensureAuthenticated,
+    PessoasController.unlikeItemValidation,
+    PessoasController.unlikeItem
+);
 
 export {router};

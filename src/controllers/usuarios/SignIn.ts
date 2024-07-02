@@ -31,6 +31,7 @@ const signIn: RequestHandler = async (req, res, next) => {
     const userId = await UsuariosProvider.getByEmail(req.body.email, 'id');
     
     res.header({
+      uid: userId,
       bearer: Services.signJWT( { id: userId } )
     });
 

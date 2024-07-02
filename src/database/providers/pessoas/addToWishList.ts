@@ -2,12 +2,14 @@ import { Knex } from "../../knex";
 
 export const addToWishList = async (userId: number, watchId: number): Promise<object | Error> =>{
   try{
-    console.log(userId);
-    console.log(watchId);
+    const pessoaLikes = {
+      user_id: userId,
+      relogio_id: watchId 
+    }; 
 
-    const result = Knex('usuarios')
-    .insert({likes: watchId})
-    .where('id', userId);
+    const result = await Knex('pessoa')
+    .insert(pessoaLikes)
+    .returning(['user_id','relogio_id']);
 
     if (typeof result === 'object') return result;
 

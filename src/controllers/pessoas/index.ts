@@ -1,14 +1,10 @@
-import * as create from './Create';
-import * as getAll from './GetAll';
-import * as get from './Get';
-import * as updateById from './Update';
 import * as addToWishList from './AddToWishList';
+import * as deleteFromWishList from './DeleteFromWishList';
+import * as getWishList from './GetWishList';
 
 
 export const PessoasController = {
-  ...create,
-  ...getAll,
-  ...get,
-  ...updateById,
   ...addToWishList,
+  ...deleteFromWishList,
+  ...getWishList,
 };

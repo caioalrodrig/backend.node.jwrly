@@ -2,7 +2,6 @@ import { UsuariosProvider } from '../../database/providers';
 import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes'; 
 import { Middleware } from '../../shared'; 
-import { Services } from '../../shared';
 import * as yup from 'yup';
 
 interface IFilterParam{
@@ -18,13 +17,16 @@ const likeItemValidation = Middleware.validation({query: relogioId});
 
 const likeItem: RequestHandler = async (req, res, next) => {
 
-  const userId = parseInt(req.headers.userid as string, 10);
+  const userId = parseInt(req.headers.uid as string, 10);
   const relogioId = parseInt(req.query.id as string, 10);
-  if(!userId ) return;
+  if( !userId ){
+    return res.status(StatusCodes.UNAUTHORIZED)
+    .json({error: "Acesso negado" });
+  } 
 
   const inserted: object = await UsuariosProvider.addToWishList(userId, relogioId);
   
-  if (inserted instanceof Error) {
+  if ( inserted instanceof Error ) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       errors: {
         default: inserted.message
