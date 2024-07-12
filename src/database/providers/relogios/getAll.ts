@@ -3,7 +3,7 @@ import { IRelogio } from "../../schemas";
 
 export const getAll = async () => {
   try{
-    const [ result ] = await Knex('relogios').select();
+    const result = await Knex('relogios').select();
 
     if (typeof result === 'object') return result;
 

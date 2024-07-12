@@ -1,4 +1,5 @@
 import { Knex } from 'knex';
+import { hostname } from 'os';
 import path from 'path';
 export const development: Knex.Config = {
   client: 'sqlite3',
@@ -25,4 +26,21 @@ export const test: Knex.Config = {
   connection: ':memory:',
 };
 
-export const production = {};
+export const production = {
+  client: 'pg',
+  useNullAsDefault: true,
+  migrations: {
+    directory: path.resolve(__dirname, '..', 'migrations'),
+  },
+  seeds: {
+    directory: path.resolve(__dirname, '..', 'seeds'),
+  },
+  connection: {
+    host: process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USER,
+    database: process.env.DATABASE_NAME,
+    password: process.env.DATABASE_PASSWORD,
+    port: Number(process.env.DATABASE_PORT || 5432),
+    ssl: {rejectUnauthorized: false},
+  },
+};

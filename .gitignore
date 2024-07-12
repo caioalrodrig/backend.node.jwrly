@@ -3,3 +3,4 @@
 \coverage
 database.sqlite
 \build
+vercel.json

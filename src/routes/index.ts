@@ -21,7 +21,7 @@ router.post('/relogios',
 );
 
 router.get('/relogios',
-    Middleware.ensureAuthenticated,
+    // Middleware.ensureAuthenticated,
     RelogiosController.getValidation,
     RelogiosController.getRelogios,
     RelogiosController.getAllRelogios
