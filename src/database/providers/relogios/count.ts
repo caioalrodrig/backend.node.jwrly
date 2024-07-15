@@ -1,9 +1,7 @@
 import { Knex } from "../../knex";
 import { IRelogio } from "../../schemas";
 
-type TParam = Record<string, any>;
-
-export const get = async (queryParams: TParam, bodyParams: TParam) => {
+export const count = async (queryParams: Record<string, any>) => {
   const params = Object.entries(queryParams);
   let queryBuilder = Knex('relogios');
   let priceMin; 
@@ -23,11 +21,10 @@ export const get = async (queryParams: TParam, bodyParams: TParam) => {
   queryBuilder = queryBuilder.whereBetween('price', [priceMin, priceMax]);
   
   try{
-    const result = await queryBuilder
-    .offset((bodyParams.page - 1) * bodyParams.limit)
-    .limit(bodyParams.limit);
+    const [{ count }] = await queryBuilder
+     .count<[{ count: number }]>('* as count');
     
-    if (typeof result === 'object') return result;
+    if (typeof count === 'number') return count;
 
     return new Error('Erro ao consultar registro por parametro');
   } catch (error){

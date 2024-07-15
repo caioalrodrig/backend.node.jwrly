@@ -22,7 +22,8 @@ router.post('/relogios',
 
 router.get('/relogios',
     // Middleware.ensureAuthenticated,
-    RelogiosController.getValidation,
+    RelogiosController.getValidationQuery,
+    RelogiosController.getValidationBody,
     RelogiosController.getRelogios,
     RelogiosController.getAllRelogios
 );
@@ -35,6 +36,7 @@ router.post('/pessoas',
 
 router.get('/pessoas',
     Middleware.ensureAuthenticated,
+    PessoasController.validateGetWishList,
     PessoasController.getWishlist
 );
 
