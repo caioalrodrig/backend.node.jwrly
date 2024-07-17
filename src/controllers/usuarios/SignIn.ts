@@ -29,13 +29,12 @@ const signIn: RequestHandler = async (req, res, next) => {
 
   if (verifiedPassword){
     const userId = await UsuariosProvider.getByEmail(req.body.email, 'id');
-    
-    res.header({
+        
+    return res.status(StatusCodes.OK).send({  
       uid: userId,
-      bearer: Services.signJWT( { id: userId } )
+      bearer: Services.signJWT({ id: userId })
     });
 
-    return res.status(StatusCodes.OK).send();
   } else{
     return res.status(StatusCodes.UNAUTHORIZED).json({
       errors: { default: 'Email ou senha são inválidos'}

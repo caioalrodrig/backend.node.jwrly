@@ -5,7 +5,8 @@ export const count = async (userId: string): Promise<number | Error> => {
     const [{ count }] = await Knex('pessoa')
     .select('relogio_id')
     .where('user_id', userId)
-    .count<[{ count: number }]>('* as count');
+    .groupBy('relogio_id')
+    .count('* as count');
     
     if (typeof count === 'number') return count;
 
