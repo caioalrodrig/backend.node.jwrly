@@ -3555,5 +3555,5 @@ export const dataset = dataItens.map((objeto) => ({
   model: objeto.model,
   caseMaterial: objeto.caseMaterial,
   strapMaterial: objeto.strapMaterial,
-  price: objeto.priceUSD
+  price: Number(objeto.priceUSD)
 }));

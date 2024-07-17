@@ -1,9 +1,13 @@
+
 import { Knex } from "../../knex";
 import { IRelogio } from "../../schemas";
 
-export const getAll = async () => {
+export const getAll = async (bodyParams: Record<string, any>) => {
   try{
-    const result = await Knex('relogios').select();
+    const result = await Knex('relogios')
+    .select()
+    .offset((bodyParams.page - 1) * bodyParams.limit)
+    .limit(bodyParams.limit);
 
     if (typeof result === 'object') return result;
 
@@ -12,4 +16,3 @@ export const getAll = async () => {
     return new Error('Erro ao consultar todos os registros');
   }
 };
-

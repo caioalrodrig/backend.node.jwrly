@@ -4,8 +4,10 @@
   "description": "backend service for providing city list ",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "test": "jest",
-    "start": "ts-node-dev index.ts",
+    "start": "node ./build/index.js",
+    "dev": "ts-node-dev index.ts",
     "postinstall": "tsc",
     "production": "node ./build/index.js"
   },
@@ -27,6 +29,7 @@
     "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
     "pg": "^8.12.0",
+    "vercel": "^35.0.0",
     "yup": "^1.4.0"
   },
   "devDependencies": {
@@ -48,6 +51,6 @@
     "typescript": "^5.5.3"
   },
   "engines": {
-    "node": "21.x"
+    "node": "20.x"
   }
 }
