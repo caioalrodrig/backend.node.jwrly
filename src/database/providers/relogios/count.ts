@@ -8,7 +8,7 @@ export const count = async (queryParams: Record<string, any>) => {
   let priceMax;
 
   params.forEach(([key, value]) => {
-    if( key !== 'priceMin' && key !== 'priceMax' ){
+    if( key === 'price' || key === 'brand' || key === 'model' ){
       queryBuilder = queryBuilder.where(key, value);
     }
     if( key === 'priceMin' ) priceMin = value;

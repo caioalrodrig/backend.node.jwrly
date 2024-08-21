@@ -3,14 +3,14 @@ import { IRelogio } from "../../schemas";
 
 type TParam = Record<string, any>;
 
-export const get = async (queryParams: TParam, bodyParams: TParam) => {
+export const get = async (queryParams: TParam) => {
   const params = Object.entries(queryParams);
   let queryBuilder = Knex('relogios');
   let priceMin; 
   let priceMax;
 
   params.forEach(([key, value]) => {
-    if( key !== 'priceMin' && key !== 'priceMax' ){
+    if( key === 'model' || key === 'brand' || key === 'price' ){
       queryBuilder = queryBuilder.where(key, value);
     }
     if( key === 'priceMin' ) priceMin = value;
@@ -23,9 +23,11 @@ export const get = async (queryParams: TParam, bodyParams: TParam) => {
   queryBuilder = queryBuilder.whereBetween('price', [priceMin, priceMax]);
   
   try{
+    const page = queryParams.page;
+    const limit = queryParams.limit;
     const result = await queryBuilder
-    .offset((bodyParams.page - 1) * bodyParams.limit)
-    .limit(bodyParams.limit);
+    .offset((page - 1) * limit)
+    .limit(limit);
     
     if (typeof result === 'object') return result;
 

@@ -23,7 +23,6 @@ router.post('/relogios',
 router.get('/relogios',
     // Middleware.ensureAuthenticated,
     RelogiosController.getValidationQuery,
-    RelogiosController.getValidationBody,
     RelogiosController.getRelogios,
     RelogiosController.getAllRelogios
 );

@@ -25,10 +25,13 @@ const signUp: RequestHandler = async (req, res, next) => {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({error: "Erro de cadastro."});    
   }
-
-  const userName = await UsuariosProvider.signUp(req.body);
-
-  return res.status(StatusCodes.CREATED).json(`${userName}`);    
+  try{
+    const userName = await UsuariosProvider.signUp(req.body);
+    return res.status(StatusCodes.CREATED).json(`${userName}`);    
+  } catch(error){
+    return res.status(StatusCodes.BAD_REQUEST).json({error : "O endereço de email informado já foi cadastro"});    
+  }
+  
   
 };
 
