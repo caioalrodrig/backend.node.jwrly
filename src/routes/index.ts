@@ -27,6 +27,12 @@ router.get('/relogios',
     RelogiosController.getAllRelogios
 );
 
+router.get('/relogios-title',
+    // Middleware.ensureAuthenticated,
+    RelogiosController.getValidation,
+    RelogiosController.getRelogiosByTitle,
+);
+
 router.post('/pessoas',
     Middleware.ensureAuthenticated,
     PessoasController.likeItemValidation,
