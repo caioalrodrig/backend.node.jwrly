@@ -3,6 +3,10 @@ import { dataset } from '../.';
 
 export const seed = async (knex: Knex) => {
   const BATCH_SIZE = 5;
+  const hasColumn = await knex.schema.hasColumn('relogios', 'title');
+
+  if( !hasColumn ) return;
+  
   const [{ count }] = await knex('relogios')
     .whereNull('title')
     .count<{ count: number }[]>('* as count');

@@ -10,8 +10,11 @@ export const get = async (queryParams: TParam) => {
   let priceMax;
 
   params.forEach(([key, value]) => {
-    if( key === 'model' || key === 'brand' || key === 'price' ){
+    if( key === 'brand' || key === 'model' || key === 'price' ){
       queryBuilder = queryBuilder.where(key, value);
+    }
+    if ( key === 'title'){
+      queryBuilder = queryBuilder.where('title', 'like', `%${queryParams.title}%`)
     }
     if( key === 'priceMin' ) priceMin = value;
     if( key === 'priceMax' ) priceMax = value;   

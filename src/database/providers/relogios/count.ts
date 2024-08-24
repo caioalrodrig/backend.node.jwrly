@@ -11,6 +11,9 @@ export const count = async (queryParams: Record<string, any>) => {
     if( key === 'price' || key === 'brand' || key === 'model' ){
       queryBuilder = queryBuilder.where(key, value);
     }
+    if (key === 'title'){
+      queryBuilder = queryBuilder.where('title', 'like', `%${queryParams.title}%`);
+    }
     if( key === 'priceMin' ) priceMin = value;
     if( key === 'priceMax' ) priceMax = value;   
   });

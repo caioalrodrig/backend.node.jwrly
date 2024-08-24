@@ -10,8 +10,9 @@ interface IQuery {
   price?: number;
   priceMin?: number;
   priceMax?: number;
-  page: number;
-  limit: number;
+  title?: string;
+  page?: number;
+  limit?: number;
 };
 
 
@@ -21,8 +22,9 @@ const querySchema: yup.ObjectSchema<IQuery> = yup.object().shape({
   price: yup.number().optional(),
   priceMin: yup.number().optional().positive(),
   priceMax: yup.number().optional().positive(),
-  limit: yup.number().required(),
-  page: yup.number().required(),
+  title: yup.string().optional(),
+  limit: yup.number().optional(),
+  page: yup.number().optional(),
 }).noUnknown();
 
 const getValidationQuery = Middleware.validation({ query: querySchema });
@@ -34,9 +36,9 @@ const getRelogios: RequestHandler = async ( req, res, next) => {
     next();
     return;
   } 
-
-  const queryResult = await RelogiosProvider.get(queryParams);  
-    
+  
+  const queryResult =  await RelogiosProvider.get(queryParams);  
+      
   return res.status(StatusCodes.OK).json({ entries: queryResult,
     count : await RelogiosProvider.count(queryParams)
   });

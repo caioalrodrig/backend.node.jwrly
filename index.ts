@@ -15,7 +15,6 @@ const startServer = () => {
     });
 };
 
-// if( !process.env.IS_LOCALHOST ){
 Knex.migrate.latest()
 .then(() => {
     Knex.seed.run()
@@ -23,6 +22,3 @@ Knex.migrate.latest()
     .catch(console.log);
 })
 .catch(console.log);
-// } else {
-//   startServer();
-// }
