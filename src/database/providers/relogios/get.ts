@@ -21,7 +21,7 @@ export const get = async (queryParams: TParam) => {
   });
 
   if ( !priceMax ) priceMax = 999999; 
-  if ( !priceMin ) priceMin = 0;  
+  if ( !priceMin ) priceMin = 1;  
 
   queryBuilder = queryBuilder.whereBetween('price', [priceMin, priceMax]);
   
@@ -29,9 +29,9 @@ export const get = async (queryParams: TParam) => {
     const page = queryParams.page;
     const limit = queryParams.limit;
     const result = await queryBuilder
-    .offset((page - 1) * limit)
-    .limit(limit);
-    
+    .offset((page - 1) * limit )
+    .limit(limit );
+
     if (typeof result === 'object') return result;
 
     return new Error('Erro ao consultar registro por parametro');

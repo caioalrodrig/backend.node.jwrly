@@ -1,10 +1,10 @@
 import { Knex } from "../../knex";
 
-export const addToWishList = async (userId: number, watchId: number): Promise<object | Error> =>{
+export const addToWishList = async (likeInfo: any): Promise<object | Error> =>{
   try{
     const pessoaLikes = {
-      user_id: userId,
-      relogio_id: watchId 
+      user_id: likeInfo.userId,
+      relogio_id: likeInfo.watchId 
     }; 
 
     const result = await Knex('pessoa')

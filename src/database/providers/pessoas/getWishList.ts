@@ -1,14 +1,15 @@
 import { query } from "express";
 import { Knex } from "../../knex";
-import { IRelogio } from "../../schemas";
 
-export const get = async (userId: number, bodyParams: Record<string, any>): Promise<object> => {
+export const get = async (queryParams: Record<string, any>): Promise<object> => {
   try{
-    const result: object = await Knex('pessoa')
-    .select('relogio_id')
-    .where('user_id',userId)
-    .offset((bodyParams.page - 1) * bodyParams.limit)
-    .limit(bodyParams.limit);
+    const result: object = await Knex('relogios')
+    .join('pessoa', 'relogios.id', '=', 'pessoa.relogio_id')
+    .join('usuarios', 'usuarios.id', '=', 'pessoa.user_id')
+    .where('usuarios.id', queryParams.userId)
+    .select('relogios.title')
+    .offset((queryParams.page - 1) * queryParams.limit )
+    .limit( queryParams.limit );
     
     if (typeof result === 'object') return result;
 

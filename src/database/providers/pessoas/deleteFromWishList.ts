@@ -1,16 +1,12 @@
 import { Knex } from "../../knex";
 
-export const deleteFromWishList = async (userId: number, watchId: number): Promise<number | Error> =>{
+export const deleteFromWishList = async (likeInfo: any): Promise<number | Error> =>{
   try{
-    const pessoaLikes = {
-      user_id: userId,
-      relogio_id: watchId 
-    }; 
 
     const result = await Knex('pessoa')
     .where({
-      user_id: userId,
-      relogio_id: watchId
+      user_id: likeInfo.userId,
+      relogio_id: likeInfo.watchId 
     })
     .delete().returning('relogio_id');
 

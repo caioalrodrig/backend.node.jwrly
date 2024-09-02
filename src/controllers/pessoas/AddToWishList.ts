@@ -2,14 +2,12 @@ import { UsuariosProvider } from '../../database/providers';
 import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes'; 
 import { Middleware } from '../../shared'; 
+import { IPessoaQParams } from './IPessoa';
 import * as yup from 'yup';
 
-interface IFilterParam{
-  id: number;
-};
-
-const relogioId : yup.ObjectSchema<IFilterParam> = yup.object().shape({
-  id: yup.number().required()
+const relogioId : yup.ObjectSchema<IPessoaQParams> = yup.object().shape({
+  watchId: yup.number().required(),
+  userId: yup.number().required()
 })
 .noUnknown(); 
 
@@ -17,14 +15,7 @@ const likeItemValidation = Middleware.validation({query: relogioId});
 
 const likeItem: RequestHandler = async (req, res, next) => {
 
-  const userId = parseInt(req.headers.uid as string, 10);
-  const relogioId = parseInt(req.query.id as string, 10);
-  if( !userId ){
-    return res.status(StatusCodes.UNAUTHORIZED)
-    .json({error: "Acesso negado" });
-  } 
-
-  const inserted: object = await UsuariosProvider.addToWishList(userId, relogioId);
+  const inserted: object = await UsuariosProvider.addToWishList(req.query);
   
   if ( inserted instanceof Error ) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
