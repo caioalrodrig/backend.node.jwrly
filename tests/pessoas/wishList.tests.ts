@@ -1,25 +1,31 @@
 import { testserver } from "../jest.setup";
 import { StatusCodes } from "http-status-codes";
 
-describe('interactions, user likes watches and unlike watches', () => {
+describe('new user likes watches and unlike watches', () => {
 
   let token: string  = "";
-  let userId: string = "";
+  let userId: number = 0;
   let WATCH_ID = 1;
     
   beforeAll(async () => {
-    
-    const signInRes = await testserver
+
+    await testserver
+    .post('/signup')
+    .send({
+      name:"joao",
+      email: "joao@gmail.com",
+      password: "12345687777"
+    });
+
+    const signinRes = await testserver
     .post('/signin')
     .send({
       email: "joao@gmail.com",
       password: "12345687777"
     });
 
-    expect(signInRes.status).toBe(StatusCodes.OK);
-
-    token = signInRes.headers.bearer;
-    userId = signInRes.headers.uid;
+    token = signinRes.body.bearer;
+    userId = signinRes.body.userId;
 
     const registeredItem = await testserver
     .post('/relogios')
@@ -37,12 +43,11 @@ describe('interactions, user likes watches and unlike watches', () => {
   it('user likes a new watch', async () => {
 
     const likeRes = await testserver
-      .get('/pessoas')
+      .post('/pessoas')
       .set('bearer', token)
-      .set('uid', userId)
-      .query({ id: WATCH_ID });
+      .query({ watchId: WATCH_ID, userId:userId });
 
-    expect(likeRes.status).toBe(StatusCodes.OK);
+    expect(likeRes.status).toBe(StatusCodes.CREATED);
 
   });
 
@@ -51,7 +56,7 @@ describe('interactions, user likes watches and unlike watches', () => {
     const getRes = await testserver
       .get('/pessoas')
       .set('bearer', token)
-      .set('uid', userId);
+      .query({ userId:userId, page: 1, limit: 10 });
 
     expect(getRes.status).toBe(StatusCodes.OK);
     expect(getRes.body).toBeInstanceOf(Object || Array);
@@ -63,8 +68,7 @@ describe('interactions, user likes watches and unlike watches', () => {
     const likeRes = await testserver
       .delete('/pessoas')
       .set('bearer', token)
-      .set('uid', userId)
-      .query({ id: WATCH_ID });
+      .query({ watchId: WATCH_ID, userId:userId });
 
     expect(likeRes.status).toBe(StatusCodes.OK);
 

@@ -10,7 +10,7 @@ describe('sign up', () => {
       .post('/signup')
       .send({
         name: "joao",
-        email: "joao@gmail.com",
+        email: "joao@gmail.com.br",
         password: "12345687777"
       });      
       expect(response.status).toBe(StatusCodes.CREATED);
@@ -23,7 +23,7 @@ describe('sign up', () => {
       .post('/signup')
       .send({
         name: "joao",
-        email: "joao@gmail.com",
+        email: "joao@joao",
         password: "123"
       });
 

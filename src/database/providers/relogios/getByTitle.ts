@@ -1,5 +1,4 @@
 import { Knex } from "../../knex";
-import { IRelogio } from "../../schemas";
 
 type TParam = Record<string, any>;
 
@@ -7,7 +6,7 @@ export const getByTitle = async (queryParams: TParam) => {
 
   try{
     const result = await Knex('relogios')
-      .select('title')
+      .select('title','id')
       .where('title', 'like', `%${queryParams.title}%`)
       .limit(queryParams.limit);
     

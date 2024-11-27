@@ -7,7 +7,7 @@ export const get = async (queryParams: Record<string, any>): Promise<object> => 
     .join('pessoa', 'relogios.id', '=', 'pessoa.relogio_id')
     .join('usuarios', 'usuarios.id', '=', 'pessoa.user_id')
     .where('usuarios.id', queryParams.userId)
-    .select('relogios.title')
+    .select('relogios.title','relogios.id')
     .offset((queryParams.page - 1) * queryParams.limit )
     .limit( queryParams.limit );
     
