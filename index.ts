@@ -15,14 +15,14 @@ const startServer = () => {
     });
 };
 
-// Knex.migrate.latest()
-// .then(() => {
-//     Knex.seed.run()
-//     .then(() => startServer())
-//     .catch(console.log);
-// })
-// .catch(console.log);
-
 Knex.migrate.latest()
-.then(() => startServer())
+.then(() => {
+    Knex.seed.run()
+    .then(() => startServer())
+    .catch(console.log);
+})
 .catch(console.log);
+
+// Knex.migrate.latest()
+// .then(() => startServer())
+// .catch(console.log);

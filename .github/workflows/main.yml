@@ -53,4 +53,4 @@ jobs:
             --max-instances 1 \
             --port 8080 \
             --allow-unauthenticated \
-            --set-secrets=NODE_ENV=NODE_ENV:latest, PGDATABASE=PGDATABASE:latest, PGPORT=PGPORT:latest, PGHOST=PGHOST:latest, PGUSER=PGUSER:latest, PGPASSWORD=PGPASSWORD:latest
+            --set-secrets=NODE_ENV=NODE_ENV:latest,PGDATABASE=PGDATABASE:latest,PGPORT=PGPORT:latest,PGHOST=PGHOST:latest,PGUSER=PGUSER:latest,PGPASSWORD=PGPASSWORD:latest,JWT_SECRET=JWT_SECRET:latest,ENABLED_CORS=ENABLED_CORS:latest
