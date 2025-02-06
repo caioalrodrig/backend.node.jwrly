@@ -7,7 +7,7 @@ export const up = async (knex: Knex) => {
 
     table.foreign('user_id').references('usuarios.id')
     .onDelete('CASCADE');
-    table.foreign('RELOGIO_ID').references('relogios.id')
+    table.foreign('relogio_id').references('relogios.id')
     .onDelete('CASCADE');
     table.primary(['user_id', 'relogio_id']);
   });

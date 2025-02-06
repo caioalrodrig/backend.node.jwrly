@@ -5,7 +5,7 @@ export const seed = async (knex: Knex) => {
   const BATCH_SIZE = 5;
   const hasColumn = await knex.schema.hasColumn('relogios', 'title');
 
-  if( !hasColumn ) return;
+  if( hasColumn ) return;
   
   const [{ count }] = await knex('relogios')
     .whereNull('title')

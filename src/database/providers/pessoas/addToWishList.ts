@@ -1,6 +1,9 @@
 import { Knex } from "../../knex";
+import pino from "pino";
 
 export const addToWishList = async (likeInfo: any): Promise<object | Error> =>{
+  const logger = pino({ level: 'debug' });
+
   try{
     const pessoaLikes = {
       user_id: likeInfo.userId,
@@ -15,6 +18,8 @@ export const addToWishList = async (likeInfo: any): Promise<object | Error> =>{
 
     return new Error('Erro ao curtir');
   } catch (erro){
+    logger.error(erro);
+
     return new Error('Erro ao curtir');
   }
 };
