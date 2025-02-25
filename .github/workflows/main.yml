@@ -53,4 +53,5 @@ jobs:
             --max-instances 1 \
             --port 8080 \
             --allow-unauthenticated \
-            --set-secrets=NODE_ENV=production,PGDATABASE=PGDATABASE:latest,PGPORT=PGPORT:latest,PGHOST=PGHOST:latest,PGUSER=PGUSER:latest,PGPASSWORD=PGPASSWORD:latest,JWT_SECRET=JWT_SECRET:latest,ENABLED_CORS=ENABLED_CORS:latest
+            --set-env-vars SPRING_PROFILES_ACTIVE=prod \
+            --set-secrets=PGDATABASE=PGDATABASE:latest,PGPORT=PGPORT:latest,PGHOST=PGHOST:latest,PGUSER=PGUSER:latest,PGPASSWORD=PGPASSWORD:latest,JWT_SECRET=JWT_SECRET:latest,ENABLED_CORS=ENABLED_CORS:latest
